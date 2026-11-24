@@ -6,12 +6,12 @@ CHECK-button graders yet.
 
 ## Publish on Killercoda
 
-1. Push this repository, including `scenarios/`, to a GitHub repository you control.
+1. Push this repository, including `scenarios/` and `structure.json`, to a GitHub repository you control.
 2. In [Killercoda Creator settings](https://killercoda.com/creators/get-started),
    connect that repository and select the branch you pushed. Follow the displayed
    deploy-key and webhook instructions where required.
 3. Open the scenarios on your creator page. Killercoda discovers the `index.json`
-   files under `scenarios/`; no container image build is required.
+   files listed in `structure.json`; no container image build is required.
 4. Launch each scenario in a fresh session and wait for **Lab ready** before
    attempting the task. Test its solution before sharing the scenario publicly.
 

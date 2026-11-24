@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "path": "scenarios/01-mariadb-storage"
+    },
+    {
+      "path": "scenarios/02-argocd"
+    },
+    {
+      "path": "scenarios/03-sidecar"
+    },
+    {
+      "path": "scenarios/04-resource-allocation"
+    },
+    {
+      "path": "scenarios/05-hpa"
+    },
+    {
+      "path": "scenarios/06-crds"
+    },
+    {
+      "path": "scenarios/07-priorityclass"
+    },
+    {
+      "path": "scenarios/08-cni-network-policy"
+    },
+    {
+      "path": "scenarios/09-cri-dockerd"
+    },
+    {
+      "path": "scenarios/10-taints-tolerations"
+    },
+    {
+      "path": "scenarios/11-gateway-api"
+    },
+    {
+      "path": "scenarios/12-ingress"
+    },
+    {
+      "path": "scenarios/13-network-policy"
+    },
+    {
+      "path": "scenarios/14-storage-class"
+    },
+    {
+      "path": "scenarios/15-etcd-fix"
+    },
+    {
+      "path": "scenarios/16-nodeport"
+    },
+    {
+      "path": "scenarios/17-tls-config"
+    }
+  ]
+}

@@ -77,7 +77,10 @@ def question_markdown(text):
 
 
 def outputs():
-    result = {}
+    result = {Path("structure.json"): json.dumps({"items": [
+        {"path": f"scenarios/{number:02d}-{slug}"}
+        for number, slug in enumerate(SLUGS, 1)
+    ]}, indent=2) + "\n"}
     folders = sorted(ROOT.glob('Question-* *'), key=lambda p: int(p.name.split()[0].split('-')[1]))
     assert len(folders) == len(SLUGS), 'Expected all 17 source labs'
     for folder in folders:

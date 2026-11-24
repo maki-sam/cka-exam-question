@@ -11,6 +11,8 @@ def validate():
     subprocess.run([sys.executable, str(ROOT/'scripts/build-killercoda.py'), '--check'], check=True)
     indexes = sorted((ROOT/'scenarios').glob('*/index.json'))
     assert len(indexes) == 17, 'Expected 17 scenarios'
+    catalog = json.loads((ROOT/'structure.json').read_text())
+    assert {item['path'] for item in catalog['items']} == {str(p.parent.relative_to(ROOT)) for p in indexes}
     supported = {'ubuntu', 'ubuntu-4GB', 'kubernetes-kubeadm-2nodes'}
     for index in indexes:
         config = json.loads(index.read_text())
