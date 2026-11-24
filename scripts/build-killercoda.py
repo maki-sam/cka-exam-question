@@ -72,7 +72,7 @@ def question_markdown(text):
             line = re.sub(r'^#\s?', '', line)
         elif line.strip():
             line = '`' + line.strip() + '`'
-        lines.append(line)
+        lines.append(line.rstrip())
     return '\n\n'.join(lines).strip() + '\n'
 
 
