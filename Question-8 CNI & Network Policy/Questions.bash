@@ -1,18 +1,9 @@
-# Question
-# Install and configure a CNI of your choice tht meets the specified requirements,
-# Choose one of the following:
-
-# Flannel (v0.26.1) using the manifest kube-flannel.yml
-# (https://github.com/flannel-io/flannel/releases/download/v0.26.1/kube-flannel.yml)
-
-# or
-
-# Calico (v3.28.2) using the manifest tigera-operator.yaml
-# (https://raw.githubusercontent.com/projectcalico/calico/v3.28.2/manifests/tigera-operator.yaml)
-
-# The CNI you choose must
-# 1. Let pods communicate with each other
-# 2. Support network policy enforcement
-# 3. Install from manifest
-
-#Video Link - https://youtu.be/Uc04Ui4x3EM
+# Install a CNI with NetworkPolicy support
+# The dedicated kind-cni-lab cluster has no CNI. Its pod CIDR is 192.168.0.0/16.
+# Choose between Flannel (connectivity only) and Calico (connectivity and policy enforcement).
+# Install Calico v3.33.0 using its CRDs, operator and custom-resources manifests:
+# https://raw.githubusercontent.com/projectcalico/calico/v3.33.0/manifests/v3_projectcalico_org-v1beta1.yaml
+# https://raw.githubusercontent.com/projectcalico/calico/v3.33.0/manifests/tigera-operator.yaml
+# https://raw.githubusercontent.com/projectcalico/calico/v3.33.0/manifests/custom-resources.yaml
+# Ensure the Installation uses the cluster's pod CIDR and wait for the node to become Ready.
+# Confirm the calico-node DaemonSet is ready before testing a NetworkPolicy.

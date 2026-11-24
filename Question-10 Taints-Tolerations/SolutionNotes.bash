@@ -8,6 +8,8 @@ kind: Pod
 metadata:
   name: nginx
 spec:
+  nodeSelector:
+    kubernetes.io/hostname: node01
   containers:
   - name: nginx
     image: nginx
@@ -27,6 +29,8 @@ kind: Pod
 metadata:
   name: nginx-fail
 spec:
+  nodeSelector:
+    kubernetes.io/hostname: node01
   containers:
   - name: nginx
     image: nginx

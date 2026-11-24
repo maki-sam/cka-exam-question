@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 # setup-wordpress.sh
 # Create a WordPress deployment with 3 replicas and an init container
 

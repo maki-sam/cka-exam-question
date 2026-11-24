@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 echo "🚀 Setting up WordPress deployment for sidecar lab in the default namespace..."
 

@@ -1,0 +1,36 @@
+{
+  "title": "04: Resource-Allocation",
+  "description": "CKA practice: Resource-Allocation",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "background": "background.sh",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Your task",
+        "text": "task.md"
+      },
+      {
+        "title": "Solution and review",
+        "text": "solution.md"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    },
+    "assets": {
+      "host01": [
+        {
+          "file": "setup.sh",
+          "target": "/root/cka/",
+          "chmod": "+x"
+        }
+      ]
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

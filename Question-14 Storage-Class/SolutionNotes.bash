@@ -14,5 +14,9 @@ kubectl get sc
 
 # Make it default, remove default from local-path
 kubectl patch storageclass local-storage -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-kubectl patch storageclass local-path -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
+for sc in $(kubectl get sc -o jsonpath='{.items[*].metadata.name}'); do
+  if [ "$sc" != local-storage ]; then
+    kubectl annotate sc "$sc" storageclass.kubernetes.io/is-default-class=false --overwrite
+  fi
+done
 kubectl get sc

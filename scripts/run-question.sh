@@ -1,34 +1,18 @@
 #!/bin/bash
 set -euo pipefail
-
-if [[ $# -lt 1 ]]; then
-  echo "Usage: scripts/run-question.sh \"Question-XX Topic\"" >&2
+ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+if [[ $# -ne 1 ]]; then
+  echo 'Usage: bash scripts/run-question.sh "Question-1 MariaDB-Persistent volume"' >&2
   exit 1
 fi
-
-QUESTION_DIR="$*"
-if [[ ! -d "$QUESTION_DIR" ]]; then
-  echo "Question directory '$QUESTION_DIR' not found" >&2
+QUESTION_DIR="$ROOT/$1"
+[[ -f "$QUESTION_DIR/LabSetUp.bash" && -f "$QUESTION_DIR/Questions.bash" ]] || {
+  echo "Question not found: $1" >&2
   exit 1
-fi
-
-SETUP="$QUESTION_DIR/LabSetUp.bash"
-QUESTION_TEXT="$QUESTION_DIR/Questions.bash"
-SOLUTION="$QUESTION_DIR/SolutionNotes.bash"
-
-[[ -f "$SETUP" ]] || { echo "Missing $SETUP" >&2; exit 1; }
-[[ -f "$QUESTION_TEXT" ]] || { echo "Missing $QUESTION_TEXT" >&2; exit 1; }
-
-chmod +x "$SETUP"
-
-echo "==> Running lab setup for $QUESTION_DIR"
-"$SETUP"
-
-echo
-echo "==> Question"
-cat "$QUESTION_TEXT"
-
-echo
-if [[ -f "$SOLUTION" ]]; then
-  echo "Hints: see $SOLUTION"
-fi
+}
+echo "==> Running lab setup for $1 (use a disposable Linux lab)"
+cd "$HOME"
+bash "$QUESTION_DIR/LabSetUp.bash"
+printf '\n==> Question\n'
+cat "$QUESTION_DIR/Questions.bash"
+printf '\nHints: %s\n' "$QUESTION_DIR/SolutionNotes.bash"

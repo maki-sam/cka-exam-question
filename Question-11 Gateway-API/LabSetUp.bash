@@ -1,12 +1,12 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 echo "🚀 Setting up Kubernetes Gateway API migration lab..."
 
-# 1. Install Gateway API CRDs (official source)
-echo "📦 Installing Gateway API CRDs..."
-CRD_VERSION="v1.5.0"
-kubectl apply -f "https://github.com/kubernetes-sigs/gateway-api/releases/download/$CRD_VERSION/standard-install.yaml" >/dev/null
+# Install Envoy Gateway with its matching CRDs.
+helm upgrade --install eg oci://docker.io/envoyproxy/gateway-helm \
+  --version v1.9.4 --namespace envoy-gateway-system --create-namespace \
+  --wait --timeout 240s
 
 # 2. Deploy a simple nginx web app
 cat <<EOF | kubectl apply -f -
@@ -81,14 +81,14 @@ spec:
               number: 80
 EOF
 
-# 6. Create a working GatewayClass (using a mock nginx controller)
+# 6. Create a GatewayClass backed by Envoy Gateway
 cat <<EOF | kubectl apply -f -
 apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
 metadata:
   name: nginx-class
 spec:
-  controllerName: example.net/nginx-gateway-controller
+  controllerName: gateway.envoyproxy.io/gatewayclass-controller
 EOF
 
 echo

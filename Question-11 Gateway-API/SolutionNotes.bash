@@ -49,3 +49,11 @@ kubectl apply -f http.yaml
 # Step 4: Verify
 kubectl describe gateway web-gateway
 kubectl describe httproute web-route
+
+# Killercoda has no cloud LoadBalancer; test through port forwarding.
+kubectl -n envoy-gateway-system get svc
+# Wait for the service owned by web-gateway to appear, then:
+ENVOY_SERVICE=$(kubectl -n envoy-gateway-system get svc -l gateway.envoyproxy.io/owning-gateway-name=web-gateway,gateway.envoyproxy.io/owning-gateway-namespace=default -o jsonpath='{.items[0].metadata.name}')
+kubectl -n envoy-gateway-system port-forward "service/$ENVOY_SERVICE" 8443:443 &
+# In a second terminal:
+curl -k --resolve gateway.web.k8s.local:8443:127.0.0.1 https://gateway.web.k8s.local:8443/

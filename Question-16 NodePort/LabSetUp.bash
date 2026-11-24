@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # Step 1: Create namespace
 kubectl create namespace relative || true

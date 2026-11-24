@@ -7,6 +7,7 @@
 # 3. The availability of the Service echo-service can be checked using the following command
 curl NODEIP:NODEPORT/echo
 
+# This lab assesses the Ingress manifest and NodePort connectivity; no Ingress controller is installed.
 # In the exam it may give you a command like curl -o /dev/null -s -w "%{http_code}\n" http://example.org/echo
 # This requires an ingress controller, to get this to work ensure your /etc/hosts file has an entry for your NodeIP
 # pointing to example.org

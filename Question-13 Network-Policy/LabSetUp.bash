@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 echo "🔹 Creating namespaces..."
 kubectl create namespace frontend --dry-run=client -o yaml | kubectl apply -f -
@@ -87,7 +87,7 @@ spec:
   - from:
     - namespaceSelector:
         matchLabels:
-          name: frontend
+          kubernetes.io/metadata.name: frontend
     - ipBlock:
         cidr: 172.16.0.0/16
     ports:
@@ -111,8 +111,8 @@ spec:
   - from:
     - namespaceSelector:
         matchLabels:
-          name: frontend
-    - podSelector:
+          kubernetes.io/metadata.name: frontend
+      podSelector:
         matchLabels:
           app: frontend
     ports:

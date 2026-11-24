@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # Step 1: Backup current kube-apiserver manifest
 sudo cp /etc/kubernetes/manifests/kube-apiserver.yaml /root/kube-apiserver.yaml.bak
@@ -17,4 +17,4 @@ else
 fi
 
 # Step 4: Verify that kubectl fails as API server is down
-kubectl get nodes || echo "As expected, API server is down due to misconfigured etcd client port."
+kubectl --request-timeout=5s get nodes || echo "As expected, API server is down due to misconfigured etcd client port."

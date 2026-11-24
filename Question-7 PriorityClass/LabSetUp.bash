@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 echo "Creating namespace: priority"
 kubectl create namespace priority --dry-run=client -o yaml | kubectl apply -f -

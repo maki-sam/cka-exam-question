@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 echo "🔹 Creating namespace..."
 kubectl create ns mariadb --dry-run=client -o yaml | kubectl apply -f -
@@ -18,7 +18,14 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: standard  # Use default storage class so PVC without storageClassName binds
+  storageClassName: ""
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values: [controlplane]
   hostPath:
     path: /mnt/data/mariadb
 EOF
@@ -31,6 +38,8 @@ metadata:
   name: mariadb
   namespace: mariadb
 spec:
+  storageClassName: ""
+  volumeName: mariadb-pv
   accessModes:
     - ReadWriteOnce
   resources:
@@ -73,7 +82,7 @@ EOF
 kubectl apply -f ~/mariadb-deploy.yaml
 
 echo "🔹 Waiting for MariaDB pod to start..."
-kubectl wait --for=condition=Available deployment/mariadb -n mariadb --timeout=60s || true
+kubectl wait --for=condition=Available deployment/mariadb -n mariadb --timeout=180s
 
 echo "🔹 Simulating accidental deletion of Deployment and PVC..."
 kubectl delete deployment mariadb -n mariadb --ignore-not-found

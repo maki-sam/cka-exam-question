@@ -1,0 +1,18 @@
+# Solution and review
+
+Run commands selectively and inspect the results. Replace example values where instructed.
+
+```bash
+# Check apiserver logs, fix etcd endpoint
+sudo crictl ps -a --name kube-apiserver
+# Use the container ID from the output:
+# sudo crictl logs CONTAINER_ID
+sudo sed -n '1,200p' /etc/kubernetes/manifests/kube-apiserver.yaml
+# Ensure flag uses correct etcd port
+# --etcd-servers=https://127.0.0.1:2379
+sudo vi /etc/kubernetes/manifests/kube-apiserver.yaml   # correct port/IP, save and wait for static pod restart
+
+# If scheduler also broken, verify its flags
+kubectl -n kube-system get pods | grep kube-scheduler
+sudo vi /etc/kubernetes/manifests/kube-scheduler.yaml   # kubeconfig path, API server endpoint, cert refs
+```

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 echo "🔹 Creating namespace..."
 kubectl create namespace autoscale --dry-run=client -o yaml | kubectl apply -f -
@@ -9,10 +9,10 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 
 echo "🔹 Patching metrics-server to allow insecure TLS (Killercoda environment)..."
 kubectl patch deployment metrics-server -n kube-system \
-  --type='json' -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--kubelet-insecure-tls"}]' || true
+  --type='json' -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--kubelet-insecure-tls"}]'
 
 echo "🔹 Waiting for metrics-server rollout..."
-kubectl rollout status deployment metrics-server -n kube-system
+kubectl rollout status deployment metrics-server -n kube-system --timeout=180s
 
 echo "🔹 Creating Apache deployment..."
 kubectl apply -n autoscale -f - <<EOF

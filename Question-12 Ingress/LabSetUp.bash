@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 echo "Creating namespace: echo-sound"
 kubectl create ns echo-sound || true
